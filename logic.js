@@ -257,31 +257,41 @@ inputElement.addEventListener('click', e => {
 // Click event listener END
 
 // Calculator
-    function calculator(btn) {
-        if(btn.type == 'operator'){
-            data.operation.push(btn.symbol);
-            data.formula.push(btn.formula);
+function calculator(btn) {
+    if(btn.type == 'operator'){
+        data.operation.push(btn.symbol);
+        data.formula.push(btn.formula);
 
-        }else if(btn.type == 'number'){
-            data.operation.push(btn.symbol);
-            data.formula.push(btn.formula);
+    }else if(btn.type == 'number'){
+        data.operation.push(btn.symbol);
+        data.formula.push(btn.formula);
 
-        }else if(btn.type == 'trigo_function'){
+    }else if(btn.type == 'trigo_function'){
 
-        }else if(btn.type == 'math_function'){
+    }else if(btn.type == 'math_function'){
 
-        }else if(btn.type == 'key'){
+    }else if(btn.type == 'key'){
+        if(btn.name == 'clear'){
+            data.operation = [];
+            data.formula = [];
 
-        }else if(btn.type == 'calculate'){
-            formulaStr = data.formula.join('');
+            updateOutputResult(0);
 
-            let result = eval(formulaStr);
-
-            updateOutputResult(result);
+        }else if(btn.name == 'delete'){
+            data.operation.pop();
+            data.formula.pop();
         }
 
-        updateOutputOperation(data.operation.join(''));
-    };
+    }else if(btn.type == 'calculate'){
+        formulaStr = data.formula.join('');
+
+        let result = eval(formulaStr);
+
+        updateOutputResult(result);
+    }
+
+    updateOutputOperation(data.operation.join(''));
+};
 // Calculator END
 
 // Update output
