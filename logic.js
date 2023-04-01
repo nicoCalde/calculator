@@ -10,7 +10,7 @@ const POWER = 'POWER', FACTORIAL = 'FACTORIAL';
 let data = {
     operation : [],
     formula: []
-}
+};
 // Variables END
 
 // Calculator Buttons
@@ -145,12 +145,12 @@ let calculatorBtns = [
         type : "number"
     },{
         name : "multiplication",
-        symbol : "×",
+        symbol : "x",
         formula : "*",
         type : "operator"
     },{
         name : "factorial",
-        symbol : "×!",
+        symbol : "x!",
         formula : FACTORIAL,
         type : "math_function"
     },{
@@ -185,7 +185,7 @@ let calculatorBtns = [
         type : "number"
     },{
         name : "subtraction",
-        symbol : "–",
+        symbol : "-",
         formula : "-",
         type : "operator"
     },{
@@ -226,6 +226,8 @@ let calculatorBtns = [
     }
 ];
 // Calculator Buttons END
+
+// Create Calculator btns
 function createrCalculatorBtns() {
     const btnsPerRow = 8;
     let addedBtns = 0;
@@ -235,14 +237,47 @@ function createrCalculatorBtns() {
             inputElement.innerHTML += `<div class="row"></div>`;
         }
 
-        const row = document.querySelector('.row:last-child')
-        row.innerHTML += `<button id="${calculatorBtns.name}">${calculatorBtns.symbol}</button>`;
-        
-    })
-}
-// Create Calculator btns
+        const row = document.querySelector(".row:last-child");
+        row.innerHTML += `<button id="${btn.name}">${btn.symbol}</button>`;
 
+        addedBtns++;
+    })
+};
+createrCalculatorBtns();
 // Create Calculator btns END
+
+// Click event listener for all btns
+inputElement.addEventListener('click', e => {
+    const targetBtn = e.target;
+
+    calculatorBtns.forEach( btn => {
+        if( btn.name == targetBtn.id) calculator(btn);
+    })
+})
+// Click event listener END
+
+// Calculator
+    function calculator(btn) {
+        if(btn.type == 'operator'){
+            data.operation.push(btn.symbol);
+            data.formula.push(btn.formula);
+
+        }else if(btn.type == 'number'){
+            data.operation.push(btn.symbol);
+            data.formula.push(btn.formula);
+
+        }else if(btn.type == 'trigo_function'){
+
+        }else if(btn.type == 'math_function'){
+
+        }else if(btn.type == 'key'){
+
+        }else if(btn.type == 'calculate'){
+
+        }
+
+    }
+// Calculator END
 
 // GAMMA FUNCTINON
 function gamma(n) {  // accurate to about 15 decimal places
