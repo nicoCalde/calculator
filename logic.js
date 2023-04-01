@@ -267,9 +267,34 @@ function calculator(btn) {
         data.formula.push(btn.formula);
 
     }else if(btn.type == 'trigo_function'){
-
+        data.operation.push(btn.symbol + '(');
+        data.formula.push(btn.formula);
     }else if(btn.type == 'math_function'){
+        let symbol, formula;
+        if(btn.name == 'factorial'){
+            symbol = '!';
+            formula = btn.formula;
+            data.operation.push(symbol);
+            data.formula.push(formula);
+        }else if(btn.name == 'power'){
+            symbol = '^(';
+            formula = btn.formula;
+            data.operation.push(symbol);
+            data.formula.push(formula);
+        }else if(btn.name == 'square'){
+            symbol = '^(';
+            formula = btn.formula;
+            data.operation.push(symbol);
+            data.formula.push(formula);
 
+            data.operation.push('2)');
+            data.formula.push('2)');
+        }else{
+            symbol = btn.symbol + '(';
+            formula = btn.symbol + '(';
+            data.operation.push(symbol);
+            data.formula.push(formula);
+        };
     }else if(btn.type == 'key'){
         if(btn.name == 'clear'){
             data.operation = [];
