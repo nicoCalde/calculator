@@ -1,7 +1,7 @@
 // Select Elements
 const inputElement = document.querySelector('.input');
-const outputOperationElement = document.querySelector('.operation value');
-const outputResultElement = document.querySelector('.result value');
+const outputOperationElement = document.querySelector('.operation .value');
+const outputResultElement = document.querySelector('.result .value');
 // Select Elements END
 
 // Variables
@@ -273,11 +273,25 @@ inputElement.addEventListener('click', e => {
         }else if(btn.type == 'key'){
 
         }else if(btn.type == 'calculate'){
+            formulaStr = data.formula.join('');
 
+            let result = eval(formulaStr);
+
+            updateOutputResult(result);
         }
 
-    }
+        updateOutputOperation(data.operation.join(''));
+    };
 // Calculator END
+
+// Update output
+function updateOutputOperation(operation) {
+    outputOperationElement.innerHTML = operation;
+};
+function updateOutputResult(result) {
+    outputResultElement.innerHTML = result;
+};
+// Update output END
 
 // GAMMA FUNCTINON
 function gamma(n) {  // accurate to about 15 decimal places
