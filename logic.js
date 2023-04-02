@@ -329,7 +329,23 @@ function calculator(btn) {
     }else if(btn.type == 'calculate'){
         formulaStr = data.formula.join('');
 
-        let result = eval(formulaStr);
+        
+
+        let result;
+        try{
+            result = eval(formulaStr)
+        }catch(error){
+            if (error instanceof SyntaxError){
+                result = 'Syntax Error!';
+                updateOutputResult(result);
+                return;
+            }
+        }
+
+        // save result for later use
+        ans = result
+        data.operation = [result];
+        data.formula = [result];
 
         updateOutputResult(result);
     }
@@ -349,9 +365,15 @@ function updateOutputResult(result) {
 
 // Factorial function
 function factorial(number){
+    if (number % 1 != 0) return gamma(number+1);
     if(number === 0 || number === 1) return 1;
 
-    let
+    let result = 1;
+    for(let i=1; i<=number; i++){
+        result *= i;
+        if (result === infinity) return infinity;
+    }
+    return result;
 }
 // Factorial function ENd
 
