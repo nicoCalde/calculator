@@ -130,7 +130,7 @@ html{
     position: absolute;
 }
 
-.active-angle{
+.activeAngle{
     background-color: #1d1d1d !important;
     color: #FFF !important;
     border-radius: 10px !important;

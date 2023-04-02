@@ -115,17 +115,17 @@ let calculatorBtns = [
     {
         name : "acos",
         symbol : "acos",
-        formula : "inv_trigo(Math.acos,",
+        formula : "invTrigo(Math.acos,",
         type : "trigo_function"
     },{
         name : "asin",
         symbol : "asin",
-        formula : "inv_trigo(Math.asin,",
+        formula : "invTrigo(Math.asin,",
         type : "trigo_function"
     },{
         name : "atan",
         symbol : "atan",
-        formula : "inv_trigo(Math.atan,",
+        formula : "invTrigo(Math.atan,",
         type : "trigo_function"
     },
     {
@@ -246,6 +246,20 @@ function createrCalculatorBtns() {
 createrCalculatorBtns();
 // Create Calculator btns END
 
+// RAD and DEG selection
+let RADIAN = true;
+
+const radBtn = document.getElementById('rad');
+const degBtn = document.getElementById('deg');
+
+radBtn.classList.add('activeAngle')
+
+function angleToggler() {
+    radBtn.classList.toggle('activeAngle');
+    degBtn.classList.toggle('activeAngle');
+}
+// RAD and DEG selection END
+
 // Click event listener for all btns
 inputElement.addEventListener('click', e => {
     const targetBtn = e.target;
@@ -305,8 +319,13 @@ function calculator(btn) {
         }else if(btn.name == 'delete'){
             data.operation.pop();
             data.formula.pop();
+        }else if(btn.name == 'rad'){
+            RADIAN = true;
+            angleToggler()
+        }else if(btn.name == 'deg'){
+            RADIAN = false;
+            angleToggler()
         }
-
     }else if(btn.type == 'calculate'){
         formulaStr = data.formula.join('');
 
@@ -327,6 +346,31 @@ function updateOutputResult(result) {
     outputResultElement.innerHTML = result;
 };
 // Update output END
+
+// Factorial function
+function factorial(number){
+    if(number === 0 || number === 1) return 1;
+
+    let
+}
+// Factorial function ENd
+
+// Trigonometric functions
+function trigo(callback,angle) {
+    if(!RADIAN){
+        angle = angle * Math.PI/180;
+    }
+    return callback(angle);
+}
+function invTrigo(callback,value) {
+    let angle = callback(value);
+
+    if(!RADIAN){
+        angle = angle * 180/Math.PI;
+    }
+    return angle;
+}
+// Trigonometric functions END
 
 // GAMMA FUNCTINON
 function gamma(n) {  // accurate to about 15 decimal places
