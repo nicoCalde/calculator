@@ -329,8 +329,19 @@ function calculator(btn) {
     }else if(btn.type == 'calculate'){
         formulaStr = data.formula.join('');
 
-        
+        // search for factorial and power functions
+        let powerSearchResult = search(data.formula, POWER);
+        let factorialSearchResult = search(data.formula, FACTORIAL);
+        // get power base and replace with the right formula
+        const BASES = powerBaseGetter(data.formula,powerSearchResult);
+        BASES.forEach(base => {
+            let toReplace = base + POWER;
+            let replacement = 'Math.pow('+base+',';
 
+            formulaStr = formulaStr.replace(toReplace,replacement);
+        })
+
+        // calculate
         let result;
         try{
             result = eval(formulaStr)
@@ -348,11 +359,59 @@ function calculator(btn) {
         data.formula = [result];
 
         updateOutputResult(result);
+        return;
     }
 
     updateOutputOperation(data.operation.join(''));
 };
 // Calculator END
+
+// Power base getter
+function powerBaseGetter(formula,powerSearchResult) {
+    let powerBases = []; // save all bases in the same array
+
+    powerSearchResult.forEach(powerIndex => {
+        let base = []; // current base
+
+        let parenthesisCount = 0;
+
+        let previousIndex = powerIndex - 1;
+
+        while(previousIndex >= 0) {
+
+            if(formula[previousIndex] == '(') parenthesisCount--;
+            if(formula[previousIndex] == ')') parenthesisCount++;
+
+            let isOperator = false;
+            OPERATORS.forEach( OPERATOR => {
+                if(formula[previousIndex] == OPERATOR) isOperator = true;
+            });
+
+            let isPower = formula[previousIndex] == POWER;
+
+            if((isOperator && parenthesisCount == 0) || isPower) break;
+
+            base.unshift(formula[previousIndex]);
+            previousIndex--;
+        }
+
+        powerBases.push(base.join(''));
+    })
+
+    return powerBases;
+}
+// Power base getter END
+
+// Search and array
+function search(array,keyword) {
+    let searchResult = [];
+
+    array.forEach( (element,index) => {
+        if(element == keyword) searchResult.push(index);
+    })
+    return searchResult;
+}
+// Search and array END
 
 // Update output
 function updateOutputOperation(operation) {
