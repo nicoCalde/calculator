@@ -332,6 +332,7 @@ function calculator(btn) {
         // search for factorial and power functions
         let powerSearchResult = search(data.formula, POWER);
         let factorialSearchResult = search(data.formula, FACTORIAL);
+
         // get power base and replace with the right formula
         const BASES = powerBaseGetter(data.formula,powerSearchResult);
         BASES.forEach(base => {
@@ -341,6 +342,12 @@ function calculator(btn) {
             formulaStr = formulaStr.replace(toReplace,replacement);
         })
 
+        // get factorial base and replace with the right formula
+        const NUMBERS = factorialNumberGetter(data.formula,factorialSearchResult);
+        NUMBERS.forEach(factorial => {
+            formulaStr = formulaStr.replace(factorial.toReplace,factorial.replacement);
+        })
+        console.log(eval(formulaStr));
         // calculate
         let result;
         try{
@@ -402,6 +409,65 @@ function powerBaseGetter(formula,powerSearchResult) {
 }
 // Power base getter END
 
+// Factorial number getter
+function factorialNumberGetter(formula,factorialSearchResult) {
+    let numbers = []; // save all the numbers in the same array
+    let factorialSequence = 0;
+
+    factorialSearchResult.forEach(factorialIndex => {
+        let number = []; // current factorial number
+
+        let nextIndex = factorialIndex + 1;
+        let nextInput = formula[nextIndex];
+
+        if(nextInput == FACTORIAL) {
+            factorialSequence += 1;
+            return
+        }
+
+        // if there was a factorial sequence, we need to get the index of the very first factorial function
+        let firstFactorialIndex = factorialIndex - factorialSequence;
+
+        //then to get the number right before it
+        let previousIndex = firstFactorialIndex - 1;
+        let parenthesisCount = 0;
+
+        while(previousIndex >= 0) {
+
+            if(formula[previousIndex] == '(') parenthesisCount--;
+            if(formula[previousIndex] == ')') parenthesisCount++;
+
+            let isOperator = false;
+            OPERATORS.forEach( OPERATOR => {
+                if(formula[previousIndex] == OPERATOR) isOperator = true;
+            });
+
+            if(isOperator && parenthesisCount == 0) break;
+
+            number.unshift(formula[previousIndex]);
+            previousIndex--;
+        }
+
+        let numberStr = number.join('');
+        const factorial = 'factorial(', closeParenthesis = ')';
+        let times = factorialSequence + 1;
+
+        let toReplace = numberStr + FACTORIAL.repeat(times);
+        let replacement = factorial.repeat(times) + numberStr + closeParenthesis.repeat(times);
+
+        numbers.push({
+            toReplace : toReplace,
+            replacement : replacement
+        })
+
+        // reset factorialSequence
+        factorialSequence = 0;
+    })
+    
+    return numbers;
+}
+// Factorial number getter END
+
 // Search and array
 function search(array,keyword) {
     let searchResult = [];
@@ -424,13 +490,13 @@ function updateOutputResult(result) {
 
 // Factorial function
 function factorial(number){
-    if (number % 1 != 0) return gamma(number+1);
+    if (number % 1 != 0) return gamma(number + 1);
     if(number === 0 || number === 1) return 1;
 
     let result = 1;
-    for(let i=1; i<=number; i++){
+    for(let i = 1; i <= number; i++ ){
         result *= i;
-        if (result === infinity) return infinity;
+        if (result === Infinity) return Infinity;
     }
     return result;
 }
