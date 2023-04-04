@@ -135,3 +135,18 @@ html{
     color: #FFF !important;
     border-radius: 10px !important;
 }
+
+/* @media screen and (max-width: 768px) {
+    .calculator{
+        position: relative;
+    
+        top: 0;
+        left: 0;
+        
+        transform: translate(0%,0%);
+    }
+
+    .calcContainer{
+        width: 100%;
+    }
+} */

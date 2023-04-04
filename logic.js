@@ -305,7 +305,7 @@ function calculator(btn) {
             data.formula.push('2)');
         }else{
             symbol = btn.symbol + '(';
-            formula = btn.symbol + '(';
+            formula = btn.formula + '(';
             data.operation.push(symbol);
             data.formula.push(formula);
         };
